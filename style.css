@@ -1,0 +1,62 @@
+@font-face {
+  /* 둥근모 폰트 적용 */
+  font-family: "DungGeunMo";
+  src: url("font/DungGeunMo.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  /* 바보체 폰트 적용 */
+  font-family: "Babo";
+  src: url("font/Babo.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  /* 베야체 폰트 적용 */
+  font-family: "Beya";
+  src: url("font/Beya.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  /* 좋은_땅땅콩콩체 폰트 적용 */
+  font-family: "Ddangkong";
+  src: url("font/Ddangkong.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  /* 좋은_사랑편지체 폰트 적용 */
+  font-family: "LoveLetter";
+  src: url("font/LoveLetter.ttf") format("truetype");
+  font-weight: normal;
+}
+
+* {
+  font-family: "LoveLetter";
+}
+
+#main {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+#bg_div {
+  width: 100px;
+  height: 580px;
+  overflow-y: hidden;
+}
+
+#bg_ul_div {
+  height: 530px;
+  overflow-y: hidden;
+  margin-bottom: 16px;
+}
+
+#bg_prev_btn,
+#bg_next_btn {
+  text-align: center;
+  cursor: pointer;
+}
