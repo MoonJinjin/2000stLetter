@@ -41,12 +41,14 @@
   width: 80%;
   margin: 0 auto;
   padding-top: 30px;
+  float: left;
 }
 
 #bg_div {
   width: 100px;
   height: 580px;
   overflow-y: hidden;
+  float: left;
 }
 
 #bg_ul_div {
@@ -59,4 +61,13 @@
 #bg_next_btn {
   text-align: center;
   cursor: pointer;
+}
+
+#main_canvas {
+  width: 700px;
+  height: 500px;
+  float: left;
+  margin: 50px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
