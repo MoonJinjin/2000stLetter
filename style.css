@@ -35,39 +35,95 @@
 
 * {
   font-family: "LoveLetter";
+  margin: 0;
 }
 
-#main {
-  width: 80%;
-  margin: 0 auto;
-  padding-top: 30px;
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#container {
+  position: relative;
+  /* background-image: url("./img/cyworld.png"); */
+  background-color: beige;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+}
+
+#content {
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   float: left;
 }
 
-#bg_div {
+#bg_div, #st_div {
   width: 100px;
   height: 580px;
   overflow-y: hidden;
   float: left;
 }
 
-#bg_ul_div {
-  height: 530px;
+#bg_ul_div, #st_ul_div {
+  height: 520px;
   overflow-y: hidden;
-  margin-bottom: 16px;
 }
 
 #bg_prev_btn,
-#bg_next_btn {
+#bg_next_btn,
+#st_prev_btn,
+#st_next_btn {
   text-align: center;
   cursor: pointer;
+  margin: 5px 0;
+}
+
+#main {
+  display: grid;
+  width: 800px;
+  float: left;
 }
 
 #main_canvas {
   width: 700px;
   height: 500px;
   float: left;
-  margin: 50px;
+  margin: 40px 50px 20px 50px;
+  background-color: white;
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+textarea {
+  min-height: 30px;
+  height: auto;
+  overflow-y: hidden;
+  line-height: 30px;
+  background-color: transparent;
+  border: none;
+}
+
+/* textarea resize 부분 안보이게 (기능은 작동함) */
+::-webkit-resizer { 
+  display: none;
+}
+
+#controll_btn_list {
+  width: 700px;
+  margin-left: 50px;
+}
+
+#controll_btn_list > div  {
+  cursor: pointer;
+  display: inline;
+}
+
+#controll_btn_list > div > img, i {
+  width: 25px;
+  height: 25px;
 }
