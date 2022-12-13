@@ -34,11 +34,12 @@
 }
 
 * {
-  font-family: "LoveLetter";
   margin: 0;
+  padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -46,7 +47,7 @@ html, body {
 
 #container {
   position: relative;
-  /* background-image: url("./img/cyworld.png"); */
+  background-image: url("./img/cyworld.png");
   background-color: beige;
   background-size: cover;
   background-repeat: no-repeat;
@@ -54,22 +55,37 @@ html, body {
 }
 
 #content {
-  width: 60%;
+  width: 70%;
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 55%;
+  transform: translate(-55%, -50%);
   float: left;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  display: flex;
+  align-items: center;
 }
 
-#bg_div, #st_div {
+#bg_div,
+#st_div {
   width: 100px;
   height: 580px;
   overflow-y: hidden;
-  float: left;
 }
 
-#bg_ul_div, #st_ul_div {
+#bg_div {
+  float: left;
+  margin-left: 20px;
+}
+
+#st_div {
+  float: right;
+  margin-right: 20px;
+}
+
+#bg_ul_div,
+#st_ul_div {
   height: 520px;
   overflow-y: hidden;
 }
@@ -84,19 +100,21 @@ html, body {
 }
 
 #main {
+  width: fit-content;
   display: grid;
-  width: 800px;
+  width: 850px;
   float: left;
+  flex: 1;
 }
 
 #main_canvas {
-  width: 700px;
-  height: 500px;
+  min-width: 450px;
+  min-height: 550px;
   float: left;
-  margin: 40px 50px 20px 50px;
-  background-color: white;
-  background-size: cover;
+  margin: 20px 50px 20px 50px;
+  background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
 }
 
 textarea {
@@ -106,24 +124,52 @@ textarea {
   line-height: 30px;
   background-color: transparent;
   border: none;
+  padding: 5px;
 }
 
 /* textarea resize 부분 안보이게 (기능은 작동함) */
-::-webkit-resizer { 
+::-webkit-resizer {
   display: none;
 }
 
 #controll_btn_list {
-  width: 700px;
+  width: 850px;
   margin-left: 50px;
+  margin-top: 10px;
 }
 
-#controll_btn_list > div  {
+#controll_btn_list>div {
   cursor: pointer;
   display: inline;
 }
 
-#controll_btn_list > div > img, i {
+#controll_btn_list>div>img,
+i {
   width: 25px;
   height: 25px;
+  text-align: center;
+}
+
+#btn_add_text {
+  vertical-align: middle;
+}
+
+#btn_download {
+  float: right;
+}
+
+#font_ul {
+  position: relative;
+  width: fit-content;
+  display: none;
+  list-style: none;
+  margin-left: 50px;
+  padding: 0;
+}
+
+#font_ul>li {
+  width: 100px;
+  border-bottom: 1px solid black;
+  padding-top: 5px;
+  cursor: pointer;
 }

@@ -10,9 +10,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
 		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="html2canvas.min.js"></script>
 </head>
 
-<body>
+<body style="font-family: LoveLetter;">
 
 	<div id="container">
 		<div class="header">
@@ -32,11 +33,9 @@
 			</div>
 
 			<div id="main">
-				<div id="main_canvas">
-				</div>
 				<div id="controll_btn_list">
-					<div id="btn_set_text">
-						<i class="fa-solid fa-font"></i>
+					<div id="btn_add_text">
+						<img src="img/text_icon.png">
 					</div>
 					<div id="btn_align_left">
 						<i class="fa-solid fa-align-left"></i>
@@ -47,6 +46,34 @@
 					<div id="btn_align_right">
 						<i class="fa-solid fa-align-right"></i>
 					</div>
+
+					<select id="font_select" onchange="changeFont(this)" style="font-family: LoveLetter; width: 120px;">
+						<option value="Babo" style="font-family: Babo;">바보체</option>
+						<option value="Beya" style="font-family: Beya;">베야체</option>
+						<option value="Ddangkong" style="font-family: Ddangkong;">좋은땅콩땅콩체</option>
+						<option value="LoveLetter" style="font-family: LoveLetter;" selected>좋은사랑편지체</option>
+						<option value="DungGeunMo" style="font-family: DungGeunMo;">둥근모체</option>
+					</select>
+					<select id="font_size_select" onchange="changeFontSize(this)"
+						style="font-family: LoveLetter; margin-right: 50px; width: 70px;">
+						<option value="12px" style="font-family: LoveLetter;">12</option>
+						<option value="14px" style="font-family: LoveLetter;">14</option>
+						<option value="16px" style="font-family: LoveLetter;">16</option>
+						<option value="18px" style="font-family: LoveLetter;" selected>18</option>
+						<option value="20px" style="font-family: LoveLetter;">20</option>
+						<option value="22px" style="font-family: LoveLetter;">22</option>
+						<option value="24px" style="font-family: LoveLetter;">24</option>
+						<option value="26px" style="font-family: LoveLetter;">26</option>
+						<option value="28px" style="font-family: LoveLetter;">28</option>
+						<option value="30px" style="font-family: LoveLetter;">30</option>
+					</select>
+
+					<div id="btn_download" onclick="downImg()">
+						Download <i class="fa-sharp fa-solid fa-circle-down"></i>
+					</div>
+				</div>
+
+				<div id="main_canvas" style="background-image: url('./img/background/background1.png');">
 				</div>
 			</div>
 
@@ -63,7 +90,8 @@
 		</div>
 	</div>
 
-<script src="index.js"></script>
+	<script src="index.js"></script>
+	<!-- <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script> -->
 </body>
 
 </html>
