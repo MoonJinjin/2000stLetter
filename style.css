@@ -65,13 +65,14 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
   display: flex;
+  text-align: center;
   align-items: center;
 }
 
 #bg_div,
 #st_div {
   width: 100px;
-  height: 580px;
+  height: 610px;
   overflow-y: hidden;
 }
 
@@ -98,6 +99,21 @@ body {
   text-align: center;
   cursor: pointer;
   margin: 5px 0;
+}
+
+#st_upload_label {
+  cursor: pointer;
+}
+
+#st_upload {  /* 파일 필드 숨기기 */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip:rect(0,0,0,0);
+  border: 0;
 }
 
 #main {

@@ -1,5 +1,6 @@
 var bg_ul_div = document.getElementById("bg_ul_div");
 var st_ul_div = document.getElementById("st_ul_div");
+var st_upload = document.getElementById("st_upload");
 var main_canvas = document.getElementById("main_canvas");
 var controll_btn_list = document.getElementById("controll_btn_list");
 var font_size_select = document.getElementById("font_size_select");
@@ -82,19 +83,40 @@ function setStickerImg() {
     st_img.width = 100;
     st_img.height = 100;
     st_img.style.cursor = "pointer";
-    st_img.addEventListener("click", function (e) {
-      main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)">'
-        + '<img src="' + e.target.src + '" style="min-width:50px; min-height:50px; width:inherit; height:inherit; pointer-events:none;">'
-        + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
-        + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
-        + '</div>';
-    });
+    st_img.addEventListener("click", (e) => addSticker(e, "li"));
     st_li.appendChild(st_img);
     elem_st_ul.appendChild(st_li);
   }
   st_ul_div.appendChild(elem_st_ul);
 }
 
+// sticker 파일 업로드
+st_upload.addEventListener("change", function(e) {
+  addSticker(e, "files");
+});
+
+// 화면에 sticker 추가
+function addSticker(e, flag) {
+  var src = "";
+  if(flag == "li") {
+    src = e.target.src;
+  } else {
+    src = URL.createObjectURL(e.target.files[0]);
+  }
+  main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)">'
+    + '<img src="' + src + '" style="min-width:50px; min-height:50px; width:inherit; height:inherit; pointer-events:none;">'
+    + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
+    + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
+    + '</div>';
+};
+
+// sticker 삭제
+function removeSticker(e) {
+  var target = e.target.parentElement;
+  target.remove();
+}
+
+// sticker 크기 변경
 function resizeSticker(e) {
   const element = document.querySelector(".sticker_div.focus_st");
   let original_width = 0;
@@ -170,6 +192,11 @@ btn_add_text.addEventListener("click", function () {
     + '</div>';
 })
 
+// textarea 값 변경
+function changeTextarea(e, obj) {
+  obj.innerHTML = e.target.value;
+}
+
 // focus된 textarea 변경
 function changeFocusTextarea(e) {
   if (!e.target.parentElement.classList.contains("focus_text")) {
@@ -179,11 +206,6 @@ function changeFocusTextarea(e) {
     }
     e.target.parentElement.classList.add("focus_text");
   }
-}
-
-// textarea 값 변경
-function changeTextarea(e, obj) {
-  obj.innerHTML = e.target.value;
 }
 
 // focus된 sticker 변경
@@ -213,12 +235,6 @@ document.body.addEventListener("mousedown", function (e) {
     }
   }
 })
-
-// sticker 삭제
-function removeSticker(e) {
-  var target = e.target.parentElement;
-  target.remove();
-}
 
 function doDrag(e) {
   e.target.parentElement.style.width = e.clientX - e.target.getBoundingClientRect().left + 'px';
