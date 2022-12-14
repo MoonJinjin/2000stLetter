@@ -47,7 +47,7 @@ body {
 
 #container {
   position: relative;
-  background-image: url("./img/cyworld.png");
+  /* background-image: url("./img/cyworld.png"); */
   background-color: beige;
   background-size: cover;
   background-repeat: no-repeat;
@@ -158,18 +158,53 @@ i {
   float: right;
 }
 
-#font_ul {
+.sticker_div {
   position: relative;
-  width: fit-content;
-  display: none;
-  list-style: none;
-  margin-left: 50px;
-  padding: 0;
+  top: 40px;
+  left: 150px;
+  border: none;
+  cursor: move;
+  resize: both;
 }
 
-#font_ul>li {
-  width: 100px;
-  border-bottom: 1px solid black;
-  padding-top: 5px;
+.sticker_div > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.btn_sticker_rm, .btn_sticker_mv {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  border: none;
+  font-size: 14px;
+  background-color: gray;
+  color: white;
+  border-radius: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn_sticker_rm {
+  top: -10px;
+  right : -10px;
+  z-index: 1;
   cursor: pointer;
+}
+
+.btn_sticker_mv {
+  bottom: -10px;
+  right: -10px;
+  cursor: nw-resize;
+}
+
+.focus_st {
+  border: 1px solid black !important;
+}
+
+.focus_st > button {
+  display: inline-block;
 }
