@@ -3,6 +3,7 @@ var st_ul_div = document.getElementById("st_ul_div");
 var main_canvas = document.getElementById("main_canvas");
 var controll_btn_list = document.getElementById("controll_btn_list");
 var font_size_select = document.getElementById("font_size_select");
+var font_color_input = document.getElementById("font_color_input");
 
 // text 편집 버튼
 var btn_add_text = document.getElementById("btn_add_text");
@@ -157,7 +158,13 @@ st_next_btn.addEventListener("click", function () {
 btn_add_text.addEventListener("click", function () {
   var font_family = document.body.style.fontFamily;
   var font_size = document.getElementById("font_size_select").value;
-  main_canvas.innerHTML += '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(this)" oninput="changeTextarea(event, this)" ondragstart="startDrag(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resize(this)" style="position:absolute; left:150px; top:50px; font-family:' + font_family + '; font-size:' + font_size + ';"></textarea>'
+  var hex = font_color_input.value;
+  var red = parseInt(hex[1]+hex[2],16);
+  var green = parseInt(hex[3]+hex[4],16);
+  var blue = parseInt(hex[5]+hex[6],16);
+  var font_color = red + ',' + green + ',' + blue;
+  main_canvas.innerHTML += '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(this)" oninput="changeTextarea(event, this)" ondragstart="startDrag(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resize(this)" style="position:absolute; left:150px; top:50px; font-family:'
+  + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color +');"></textarea>';
 })
 
 // focus된 textarea 변경
@@ -272,6 +279,13 @@ function changeFontSize(e) {
     textarea[t].style.fontSize = e.value;
   }
 }
+
+// 폰트 색상 변경
+font_color_input.addEventListener("input", function (e) {
+  if (document.getElementsByClassName("focus_text").length > 0) {
+    document.getElementsByClassName("focus_text")[0].style.color = e.target.value;
+  }
+})
 
 // 텍스트 왼쪽 정렬
 btn_align_left.addEventListener("click", function () {
