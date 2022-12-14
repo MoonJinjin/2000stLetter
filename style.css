@@ -36,6 +36,7 @@
 * {
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 html,
@@ -124,7 +125,8 @@ textarea {
   line-height: 30px;
   background-color: transparent;
   border: none;
-  padding: 5px;
+  padding-left: 5px;
+  outline: 0;
 }
 
 /* textarea resize 부분 안보이게 (기능은 작동함) */
@@ -133,14 +135,16 @@ textarea {
 }
 
 #controll_btn_list {
-  width: 850px;
-  margin-left: 50px;
-  margin-top: 10px;
+  margin: 10px 50px 0 50px;
 }
 
 #controll_btn_list>div {
   cursor: pointer;
   display: inline;
+}
+
+option {
+  vertical-align: middle;
 }
 
 #controll_btn_list>div>img,
@@ -167,13 +171,15 @@ i {
   resize: both;
 }
 
-.sticker_div > img {
+.sticker_div>img {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.btn_sticker_rm, .btn_sticker_mv {
+.btn_sticker_rm,
+.btn_sticker_mv,
+.btn_textarea_rm {
   display: none;
   position: absolute;
   width: 25px;
@@ -188,9 +194,10 @@ i {
   vertical-align: middle;
 }
 
-.btn_sticker_rm {
+.btn_sticker_rm,
+.btn_textarea_rm {
   top: -10px;
-  right : -10px;
+  right: -10px;
   z-index: 1;
   cursor: pointer;
 }
@@ -201,10 +208,19 @@ i {
   cursor: nw-resize;
 }
 
-.focus_st {
+.btn_sticker_mv>img {
+  width: 17px;
+  height: 17px;
+  vertical-align: sub;
+  pointer-events: none;
+}
+
+.focus_st,
+.focus_text {
   border: 1px solid black !important;
 }
 
-.focus_st > button {
+.focus_st>button,
+.focus_text>button {
   display: inline-block;
 }

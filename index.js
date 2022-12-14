@@ -36,7 +36,7 @@ function makeBgImgArray() {
 // sticker image 배열 만들기
 var st_img_arr = [];
 function makeStickerImgArray() {
-  for (var i = 2; i <= 8; i++) { // 나중에 로컬 폴더를 읽어서 폴더 내용 수만큼 반복하도록 변경
+  for (var i = 1; i <= 16; i++) { // 나중에 로컬 폴더를 읽어서 폴더 내용 수만큼 반복하도록 변경
     st_img_arr.push(`./img/sticker/sticker${i}.png`);
   }
 }
@@ -83,11 +83,11 @@ function setStickerImg() {
     st_img.height = 100;
     st_img.style.cursor = "pointer";
     st_img.addEventListener("click", function (e) {
-      main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:100px; height:100px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)">'
-      + '<img src="' + e.target.src + '" style="min-width:100px; min-height:100px; width:inherit; height:inherit; pointer-events:none;">'
-      + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
-      + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><i class="fa-solid fa-maximize" style="pointer-events:none;"></i></button>'
-      + '</div>';
+      main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)">'
+        + '<img src="' + e.target.src + '" style="min-width:50px; min-height:50px; width:inherit; height:inherit; pointer-events:none;">'
+        + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
+        + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
+        + '</div>';
     });
     st_li.appendChild(st_img);
     elem_st_ul.appendChild(st_li);
@@ -113,14 +113,14 @@ function resizeSticker(e) {
   function resize(e) {
     const width = original_width + (e.pageX - original_mouse_x);
     const height = original_height + (e.pageY - original_mouse_y)
-    if (width > 100) {
+    if (width > 50) {
       element.style.width = width + 'px'
     }
-    if (height > 100) {
+    if (height > 50) {
       element.style.height = height + 'px'
     }
   }
-  
+
   function stopResize() {
     window.removeEventListener('mousemove', resize)
   }
@@ -159,21 +159,26 @@ btn_add_text.addEventListener("click", function () {
   var font_family = document.body.style.fontFamily;
   var font_size = document.getElementById("font_size_select").value;
   var hex = font_color_input.value;
-  var red = parseInt(hex[1]+hex[2],16);
-  var green = parseInt(hex[3]+hex[4],16);
-  var blue = parseInt(hex[5]+hex[6],16);
+  var red = parseInt(hex[1] + hex[2], 16);
+  var green = parseInt(hex[3] + hex[4], 16);
+  var blue = parseInt(hex[5] + hex[6], 16);
   var font_color = red + ',' + green + ',' + blue;
-  main_canvas.innerHTML += '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(this)" oninput="changeTextarea(event, this)" ondragstart="startDrag(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resize(this)" style="position:absolute; left:150px; top:50px; font-family:'
-  + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color +');"></textarea>';
+  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)">' +
+    '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(event)" oninput="changeTextarea(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resizeTextArea(this)" style="font-family:'
+    + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color + ');"></textarea>'
+    + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
+    + '</div>';
 })
 
 // focus된 textarea 변경
-function changeFocusTextarea(obj) {
-  var focus_text = document.getElementsByClassName("focus_text");
-  for (var f = 0; f < focus_text.length; f++) {
-    focus_text[f].classList.remove("focus_text");
+function changeFocusTextarea(e) {
+  if (!e.target.parentElement.classList.contains("focus_text")) {
+    var focus_text = document.getElementsByClassName("focus_text");
+    for (var f = 0; f < focus_text.length; f++) {
+      focus_text[f].classList.remove("focus_text");
+    }
+    e.target.parentElement.classList.add("focus_text");
   }
-  obj.classList.add("focus_text");
 }
 
 // textarea 값 변경
@@ -183,7 +188,7 @@ function changeTextarea(e, obj) {
 
 // focus된 sticker 변경
 function changeFocusSticker(e) {
-  if(!e.target.classList.contains("focus_st")) {
+  if (!e.target.classList.contains("focus_st")) {
     var focus_st = document.getElementsByClassName("focus_st");
     for (var f = 0; f < focus_st.length; f++) {
       focus_st[f].classList.remove("focus_st");
@@ -192,12 +197,19 @@ function changeFocusSticker(e) {
   }
 }
 
-// 화면 밖을 클릭하면 sticker focus 삭제
-document.body.addEventListener("mousedown", function(e) {
-  if(!e.target.classList.contains("focus_st")) {
+// 화면 밖을 클릭하면 sticker, textarea focus 삭제
+document.body.addEventListener("mousedown", function (e) {
+  if (!e.target.classList.contains("focus_st")) {
     var focus_st = document.getElementsByClassName("focus_st");
     for (var f = 0; f < focus_st.length; f++) {
       focus_st[f].classList.remove("focus_st");
+    }
+  }
+
+  if (!e.target.classList.contains("focus_text") && !e.target.parentElement.classList.contains("focus_text")) {
+    var focus_text = document.getElementsByClassName("focus_text");
+    for (var f = 0; f < focus_text.length; f++) {
+      focus_text[f].classList.remove("focus_text");
     }
   }
 })
@@ -222,7 +234,7 @@ function getTop(o) {
 // textarea 사이즈 변경
 function resizeTextArea(obj) {
   obj.style.height = "auto";
-  obj.style.height = (12 + obj.scrollHeight) + 'px';
+  obj.style.height = (obj.scrollHeight) + 'px';
 }
 
 // 요소 움직이기
@@ -243,7 +255,7 @@ function startDrag(e, obj) {
   img_L = getLeft(obj) - e_obj.clientX;
   img_T = getTop(obj) - e_obj.clientY;
 
-  if(!e.target.classList.contains("btn_sticker_mv")) {
+  if (!e.target.classList.contains("btn_sticker_mv")) {
     document.onmousemove = moveDrag;
     document.onmouseup = stopDrag;
   }
@@ -326,6 +338,6 @@ function downImg() {
     el.download = 'test.png'
     el.click()
   }).catch(function (error) {
-    console.log(error) 
+    console.log(error)
   })
 }
