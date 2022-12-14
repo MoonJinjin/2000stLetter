@@ -47,7 +47,7 @@ body {
 
 #container {
   position: relative;
-  /* background-image: url("./img/cyworld.png"); */
+  background-image: url("./img/cyworld.png");
   background-color: beige;
   background-size: cover;
   background-repeat: no-repeat;

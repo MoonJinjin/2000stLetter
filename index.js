@@ -95,7 +95,7 @@ function setStickerImg() {
 }
 
 function resizeSticker(e) {
-  const element = document.querySelector(".sticker_div");
+  const element = document.querySelector(".sticker_div.focus_st");
   let original_width = 0;
   let original_height = 0;
   let original_mouse_x = 0;
@@ -296,13 +296,22 @@ btn_align_right.addEventListener("click", function () {
 
 // 이미지 다운로드 (빈 화면으로 나옴)
 function downImg() {
-  html2canvas(main_canvas, {
+  var test_div = document.createElement("div");
+  var test = document.getElementById("main_canvas");
+  test_div.innerHTML = test.outerHTML
+  document.body.insertAdjacentHTML("afterbegin", test.outerHTML);
+  document.body.appendChild(test_div);
+  console.log(test_div.childNodes[0])
+
+  html2canvas(test_div.childNodes[0], {
     allowTaint: true,
-    foreignObjectRendering: true
+    foreignObjectRendering: true,
   }).then(function (canvas) {
     var el = document.createElement("a")
-    el.href = canvas.toDataURL("image/jpeg")
+    el.href = canvas.toDataURL("image/png")
     el.download = 'test.png'
     el.click()
+  }).catch(function (error) {
+    console.log(error) 
   })
 }
