@@ -116,7 +116,6 @@ body {
 }
 
 #main_canvas {
-  min-width: 450px;
   min-height: 550px;
   float: left;
   margin: 20px 50px 20px 50px;
@@ -243,6 +242,7 @@ i {
   /* 전체적인 레이아웃 */
   #content {
     display: inline;
+    padding: 0;
   }
   #main {
     width: 100%;
@@ -267,7 +267,7 @@ i {
   }
   #st_upload_label {
     position: absolute;
-    bottom: 150px;
+    bottom: 0;
     right: 50px;
   }
 
@@ -280,5 +280,25 @@ i {
   }
   #main_canvas {
     margin: 0;
+  }
+}
+
+@media (max-height: 600px) {
+  #content {
+    display: contents;
+  }
+  #main {
+    height: 350px;
+    margin-top: 20px;
+  }
+
+  #st_upload_label {
+    left: 10px;
+    top: 70px;
+    width: fit-content;
+    height: fit-content;
+  }
+  #main_canvas {
+    min-height: 300px;
   }
 }
