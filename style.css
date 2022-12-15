@@ -93,6 +93,8 @@ body {
 }
 
 #st_upload_label {
+  float: right;
+  margin-right: 10px;
   cursor: pointer;
 }
 
@@ -266,9 +268,7 @@ i {
     margin: auto;
   }
   #st_upload_label {
-    position: absolute;
-    bottom: 0;
-    right: 50px;
+    float: unset;
   }
 
   /* 여백 제거 */
@@ -289,16 +289,14 @@ i {
     display: contents;
   }
   #main {
-    height: 350px;
+    min-height: 400px;
     margin-top: 20px;
   }
 
-  #st_upload_label {
-    left: 10px;
-    top: 70px;
-    width: fit-content;
-    height: fit-content;
+  #controll_btn_list {
+    margin-top: 40px;
   }
+
   #main_canvas {
     min-height: 300px;
   }

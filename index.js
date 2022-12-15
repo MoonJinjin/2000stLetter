@@ -103,7 +103,7 @@ function addSticker(e, flag) {
   } else {
     src = URL.createObjectURL(e.target.files[0]);
   }
-  main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)">'
+  main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)" ontouchstart="changeFocusSticker(event); startDrag(event, this)">'
     + '<img src="' + src + '" style="min-width:50px; min-height:50px; width:inherit; height:inherit; pointer-events:none;">'
     + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
     + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
@@ -131,6 +131,8 @@ function resizeSticker(e) {
   original_mouse_y = e.pageY;
   window.addEventListener('mousemove', resize)
   window.addEventListener('mouseup', stopResize)
+  window.addEventListener('touchmove', resize) // mobile
+  window.addEventListener('touchend', stopResize)
 
   function resize(e) {
     const width = original_width + (e.pageX - original_mouse_x);
@@ -145,6 +147,7 @@ function resizeSticker(e) {
 
   function stopResize() {
     window.removeEventListener('mousemove', resize)
+    window.removeEventListener('pointermove', resize)
   }
 }
 
@@ -185,7 +188,7 @@ btn_add_text.addEventListener("click", function () {
   var green = parseInt(hex[3] + hex[4], 16);
   var blue = parseInt(hex[5] + hex[6], 16);
   var font_color = red + ',' + green + ',' + blue;
-  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)">' +
+  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
     '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(event)" oninput="changeTextarea(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resizeTextArea(this)" style="font-family:'
     + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color + ');"></textarea>'
     + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
@@ -274,6 +277,8 @@ function startDrag(e, obj) {
   if (!e.target.classList.contains("btn_sticker_mv")) {
     document.onmousemove = moveDrag;
     document.onmouseup = stopDrag;
+    document.onpointermove = moveDrag;
+    document.onpointerup = stopDrag;
   }
   if (e_obj.preventDefault) e_obj.preventDefault();
 }
@@ -282,6 +287,8 @@ function startDrag(e, obj) {
 function stopDrag() {
   document.onmousemove = null;
   document.onmouseup = null;
+  document.onpointermove = null;
+  document.onpointerup = null;
 }
 
 // 폰트 변경
