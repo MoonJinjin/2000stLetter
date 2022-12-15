@@ -39,6 +39,10 @@
   user-select: none;
 }
 
+i {
+  pointer-events: none;
+}
+
 html,
 body {
   width: 100%;

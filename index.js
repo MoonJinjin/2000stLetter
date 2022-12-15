@@ -135,7 +135,6 @@ function resizeSticker(e) {
   window.addEventListener('touchend', stopResize)
 
   function resize(e) {
-    console.log(e)
     const width = original_width + ((e.pageX ? e.pageX : e.changedTouches[0].pageX) - original_mouse_x);
     const height = original_height + ((e.pageY ? e.pageY : e.changedTouches[0].pageY) - original_mouse_y)
     if (width > 50) {
@@ -189,7 +188,7 @@ btn_add_text.addEventListener("click", function () {
   var green = parseInt(hex[3] + hex[4], 16);
   var blue = parseInt(hex[5] + hex[6], 16);
   var font_color = red + ',' + green + ',' + blue;
-  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
+  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" onmousedown="changeFocusTextarea(event); startDrag(event, this)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
     '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(event)" oninput="changeTextarea(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resizeTextArea(this)" style="font-family:'
     + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color + ');"></textarea>'
     + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)" ontouchstart="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
@@ -203,24 +202,28 @@ function changeTextarea(e, obj) {
 
 // focus된 textarea 변경
 function changeFocusTextarea(e) {
-  if (!e.target.parentElement.classList.contains("focus_text")) {
-    var focus_text = document.getElementsByClassName("focus_text");
-    for (var f = 0; f < focus_text.length; f++) {
-      focus_text[f].classList.remove("focus_text");
-    }
-    e.target.parentElement.classList.add("focus_text");
+  var focus_text = document.getElementsByClassName("focus_text");
+  for (var f = 0; f < focus_text.length; f++) {
+    focus_text[f].classList.remove("focus_text");
   }
+  var focus_st = document.getElementsByClassName("focus_st");
+  for (var f = 0; f < focus_st.length; f++) {
+    focus_st[f].classList.remove("focus_st");
+  }
+  e.target.parentElement.classList.add("focus_text");
 }
 
 // focus된 sticker 변경
 function changeFocusSticker(e) {
-  if (!e.target.classList.contains("focus_st")) {
-    var focus_st = document.getElementsByClassName("focus_st");
-    for (var f = 0; f < focus_st.length; f++) {
-      focus_st[f].classList.remove("focus_st");
-    }
-    e.target.classList.add("focus_st");
+  var focus_st = document.getElementsByClassName("focus_st");
+  for (var f = 0; f < focus_st.length; f++) {
+    focus_st[f].classList.remove("focus_st");
   }
+  var focus_text = document.getElementsByClassName("focus_text");
+  for (var f = 0; f < focus_text.length; f++) {
+    focus_text[f].classList.remove("focus_text");
+  }
+  e.target.classList.add("focus_st");
 }
 
 // 화면 밖을 클릭하면 sticker, textarea focus 삭제
@@ -232,7 +235,7 @@ document.body.addEventListener("mousedown", function (e) {
     }
   }
 
-  if (!e.target.classList.contains("focus_text") && !e.target.parentElement.classList.contains("focus_text")) {
+  if (!e.target.parentElement.classList.contains("focus_text") && e.target.id !== "font_color_input" && !e.target.classList.contains("btn_align")) {
     var focus_text = document.getElementsByClassName("focus_text");
     for (var f = 0; f < focus_text.length; f++) {
       focus_text[f].classList.remove("focus_text");
@@ -315,28 +318,28 @@ function changeFontSize(e) {
 // 폰트 색상 변경
 font_color_input.addEventListener("input", function (e) {
   if (document.getElementsByClassName("focus_text").length > 0) {
-    document.getElementsByClassName("focus_text")[0].style.color = e.target.value;
+    document.getElementsByClassName("focus_text")[0].childNodes[0].style.color = e.target.value;
   }
 })
 
 // 텍스트 왼쪽 정렬
 btn_align_left.addEventListener("click", function () {
   if (document.getElementsByClassName("focus_text").length > 0) {
-    document.getElementsByClassName("focus_text")[0].style.textAlign = "left";
+    document.getElementsByClassName("focus_text")[0].childNodes[0].style.textAlign = "left";
   }
 })
 
 // 텍스트 가운데 정렬
 btn_align_justify.addEventListener("click", function () {
   if (document.getElementsByClassName("focus_text").length > 0) {
-    document.getElementsByClassName("focus_text")[0].style.textAlign = "center";
+    document.getElementsByClassName("focus_text")[0].childNodes[0].style.textAlign = "center";
   }
 })
 
 // 텍스트 오른쪽 정렬
 btn_align_right.addEventListener("click", function () {
   if (document.getElementsByClassName("focus_text").length > 0) {
-    document.getElementsByClassName("focus_text")[0].style.textAlign = "right";
+    document.getElementsByClassName("focus_text")[0].childNodes[0].style.textAlign = "right";
   }
 })
 
