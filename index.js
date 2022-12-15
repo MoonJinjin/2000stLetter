@@ -91,14 +91,14 @@ function setStickerImg() {
 }
 
 // sticker 파일 업로드
-st_upload.addEventListener("change", function(e) {
+st_upload.addEventListener("change", function (e) {
   addSticker(e, "files");
 });
 
 // 화면에 sticker 추가
 function addSticker(e, flag) {
   var src = "";
-  if(flag == "li") {
+  if (flag == "li") {
     src = e.target.src;
   } else {
     src = URL.createObjectURL(e.target.files[0]);
@@ -188,7 +188,7 @@ btn_add_text.addEventListener("click", function () {
   var green = parseInt(hex[3] + hex[4], 16);
   var blue = parseInt(hex[5] + hex[6], 16);
   var font_color = red + ',' + green + ',' + blue;
-  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" onmousedown="changeFocusTextarea(event); startDrag(event, this)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
+  main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
     '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(event)" oninput="changeTextarea(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resizeTextArea(this)" style="font-family:'
     + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color + ');"></textarea>'
     + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)" ontouchstart="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
@@ -210,7 +210,9 @@ function changeFocusTextarea(e) {
   for (var f = 0; f < focus_st.length; f++) {
     focus_st[f].classList.remove("focus_st");
   }
-  e.target.parentElement.classList.add("focus_text");
+  if (e.target.parentElement.classList.contains("textarea_div")) {
+    e.target.parentElement.classList.add("focus_text");
+  }
 }
 
 // focus된 sticker 변경
@@ -235,7 +237,7 @@ document.body.addEventListener("mousedown", function (e) {
     }
   }
 
-  if (!e.target.parentElement.classList.contains("focus_text") && e.target.id !== "font_color_input" && !e.target.classList.contains("btn_align")) {
+  if (!e.target.parentElement.classList.contains("focus_text") && !e.target.classList.contains("focus_text") && e.target.id !== "font_color_input" && !e.target.classList.contains("btn_align")) {
     var focus_text = document.getElementsByClassName("focus_text");
     for (var f = 0; f < focus_text.length; f++) {
       focus_text[f].classList.remove("focus_text");
