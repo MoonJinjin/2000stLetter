@@ -105,8 +105,8 @@ function addSticker(e, flag) {
   }
   main_canvas.innerHTML += '<div class="sticker_div focus_st" style="width:50px; height:50px; position:absolute; left:180px; top:80px;" onmousedown="changeFocusSticker(event); startDrag(event, this)" ontouchstart="changeFocusSticker(event); startDrag(event, this)">'
     + '<img src="' + src + '" style="min-width:50px; min-height:50px; width:inherit; height:inherit; pointer-events:none;">'
-    + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
-    + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
+    + '<button class="btn_sticker_rm" onmousedown="removeSticker(event)" ontouchstart="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
+    + '<button class="btn_sticker_mv" onmousedown="resizeSticker(event)" ontouchstart="resizeSticker(event)"><img src="img/resize_icon.png"></button>'
     + '</div>';
 };
 
@@ -127,16 +127,17 @@ function resizeSticker(e) {
   e.preventDefault()
   original_width = parseFloat(getComputedStyle(element, null).getPropertyValue('width').replace('px', ''));
   original_height = parseFloat(getComputedStyle(element, null).getPropertyValue('height').replace('px', ''));
-  original_mouse_x = e.pageX;
-  original_mouse_y = e.pageY;
+  original_mouse_x = e.pageX ? e.pageX : e.changedTouches[0].pageX;
+  original_mouse_y = e.pageY ? e.pageY : e.changedTouches[0].pageY;
   window.addEventListener('mousemove', resize)
   window.addEventListener('mouseup', stopResize)
   window.addEventListener('touchmove', resize) // mobile
   window.addEventListener('touchend', stopResize)
 
   function resize(e) {
-    const width = original_width + (e.pageX - original_mouse_x);
-    const height = original_height + (e.pageY - original_mouse_y)
+    console.log(e)
+    const width = original_width + ((e.pageX ? e.pageX : e.changedTouches[0].pageX) - original_mouse_x);
+    const height = original_height + ((e.pageY ? e.pageY : e.changedTouches[0].pageY) - original_mouse_y)
     if (width > 50) {
       element.style.width = width + 'px'
     }
@@ -147,7 +148,7 @@ function resizeSticker(e) {
 
   function stopResize() {
     window.removeEventListener('mousemove', resize)
-    window.removeEventListener('pointermove', resize)
+    window.removeEventListener('touchmove', resize)
   }
 }
 
@@ -191,7 +192,7 @@ btn_add_text.addEventListener("click", function () {
   main_canvas.innerHTML += '<div class="textarea_div focus_text" style="position:absolute; left:180px; top:80px;" ondragstart="startDrag(event, this)" onmousedown="changeFocusTextarea(event)" ontouchstart="changeFocusTextarea(event); startDrag(event, this)">' +
     '<textarea draggable="true" autofocus="true" placeholder="Text" rows="1" onfocus="changeFocusTextarea(event)" oninput="changeTextarea(event, this)" onkeydown="resizeTextArea(this)" onkeyup="resizeTextArea(this)" style="font-family:'
     + font_family + '; font-size:' + font_size + '; color:rgb(' + font_color + ');"></textarea>'
-    + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
+    + '<button class="btn_textarea_rm" onmousedown="removeSticker(event)" ontouchstart="removeSticker(event)"><i class="fa-solid fa-x" style="pointer-events:none;"></i></button>'
     + '</div>';
 })
 
@@ -239,10 +240,6 @@ document.body.addEventListener("mousedown", function (e) {
   }
 })
 
-function doDrag(e) {
-  e.target.parentElement.style.width = e.clientX - e.target.getBoundingClientRect().left + 'px';
-}
-
 function getLeft(o) {
   return parseInt(o.style.left.replace('px', ''));
 }
@@ -259,8 +256,8 @@ function resizeTextArea(obj) {
 // 요소 움직이기
 function moveDrag(e) {
   var e_obj = window.event ? window.event : e;
-  var dmvx = parseInt(e_obj.clientX) + img_L;
-  var dmvy = parseInt(e_obj.clientY) + img_T;
+  var dmvx = parseInt(e_obj.clientX ? e_obj.clientX : e_obj.changedTouches[0].clientX) + img_L;
+  var dmvy = parseInt(e_obj.clientY ? e_obj.clientY : e_obj.changedTouches[0].clientY) + img_T;
   targetObj.style.left = `${dmvx}px`;
   targetObj.style.top = `${dmvy}px`;
 
@@ -271,24 +268,24 @@ function moveDrag(e) {
 function startDrag(e, obj) {
   targetObj = obj;
   var e_obj = window.event ? window.event : e;
-  img_L = getLeft(obj) - e_obj.clientX;
-  img_T = getTop(obj) - e_obj.clientY;
+  img_L = getLeft(obj) - (e_obj.clientX ? e_obj.clientX : e_obj.changedTouches[0].clientX);
+  img_T = getTop(obj) - (e_obj.clientY ? e_obj.clientY : e_obj.changedTouches[0].clientY);
 
   if (!e.target.classList.contains("btn_sticker_mv")) {
     document.onmousemove = moveDrag;
     document.onmouseup = stopDrag;
-    document.onpointermove = moveDrag;
-    document.onpointerup = stopDrag;
+    document.ontouchmove = moveDrag;
+    document.ontouchend = stopDrag;
   }
-  if (e_obj.preventDefault) e_obj.preventDefault();
+  if (e_obj.preventDefault && e.cancelable) e_obj.preventDefault();
 }
 
 // 드래그 멈추기
 function stopDrag() {
   document.onmousemove = null;
   document.onmouseup = null;
-  document.onpointermove = null;
-  document.onpointerup = null;
+  document.ontouchmove = null;
+  document.ontouchend = null;
 }
 
 // 폰트 변경
